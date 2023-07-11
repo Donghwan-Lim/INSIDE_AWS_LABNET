@@ -206,8 +206,8 @@ resource "aws_route_table_association" "vpc02-rt-pub-to-sbn-pub02" {
   subnet_id = aws_subnet.vpc02-sbn-pub-02.id
 }
 
-resource "aws_route_table" "vpc02-rt-private" {
-  vpc_id = aws_vpc.vpc02.id
+resource "aws_default_route_table" "vpc02-rt-private" {
+  default_route_table_id = aws_vpc.vpc02.default_route_table_id
 
   tags = (merge(local.common-tags, tomap ({
     Name = "VPC02-PRIVATE-RT"
@@ -216,11 +216,11 @@ resource "aws_route_table" "vpc02-rt-private" {
 }
 
 resource "aws_route_table_association" "vpc02-rt-priv-to-sbn-priv01" {
-  route_table_id = aws_route_table.vpc02-rt-private.id
+  route_table_id = aws_default_route_table.vpc02-rt-private.id
   subnet_id = aws_subnet.vpc02-sbn-priv-01.id
 }
 
 resource "aws_route_table_association" "vpc02-rt-priv-to-sbn-priv02" {
-  route_table_id = aws_route_table.vpc02-rt-private.id
+  route_table_id = aws_default_route_table.vpc02-rt-private.id
   subnet_id = aws_subnet.vpc02-sbn-priv-02.id
 }
