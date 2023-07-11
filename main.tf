@@ -49,6 +49,15 @@ resource "aws_vpc" "vpc02" {
   })))
 }
 
+### Internet GW For VPC01 ###
+resource "aws_internet_gateway" "igw01" {
+  vpc_id = aws_vpc.vpc01.id
+  tags = (merge(local.common-tags, tomap({
+    Name = "igw-01"
+    resource = "aws_internet_gateway"
+  })))
+}
+
 
 ### AWS Subnet ###
 resource "aws_subnet" "vpc01-sbn-pub-01" {
@@ -129,4 +138,49 @@ resource "aws_subnet" "vpc02-sbn-priv-02" {
     Name = "vpc02-priv02-sbn"
     resource = "aws_subnet"
   })))
+}
+
+
+### Route Table ###
+resource "aws_route_table" "vpc01-rt-public" {
+  vpc_id = aws_vpc.vpc01.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw01.id
+  }
+
+  tags = (merge(local.common-tags, tomap ({
+    Name = "VPC01-PUBLIC-RT"
+    resource = "aws_route_table"
+  })))
+}
+
+resource "aws_route_table_association" "vpc01-rt-pub-to-sbn-pub01" {
+  route_table_id = aws_route_table.vpc01-rt-public.id
+  subnet_id = aws_subnet.vpc01-sbn-pub-01.id
+}
+
+resource "aws_route_table_association" "vpc01-rt-pub-to-sbn-pub02" {
+  route_table_id = aws_route_table.vpc01-rt-public.id
+  subnet_id = aws_subnet.vpc01-sbn-pub-02.id
+}
+
+resource "aws_route_table" "vpc01-rt-private" {
+  vpc_id = aws_vpc.vpc01.id
+
+  tags = (merge(local.common-tags, tomap ({
+    Name = "VPC01-PRIVATE-RT"
+    resource = "aws_route_table"
+  })))
+}
+
+resource "aws_route_table_association" "vpc01-rt-priv-to-sbn-priv01" {
+  route_table_id = aws_route_table.vpc01-rt-private.id
+  subnet_id = aws_subnet.vpc01-sbn-priv-01.id
+}
+
+resource "aws_route_table_association" "vpc01-rt-priv-to-sbn-priv02" {
+  route_table_id = aws_route_table.vpc01-rt-private.id
+  subnet_id = aws_subnet.vpc01-sbn-priv-02.id
 }
