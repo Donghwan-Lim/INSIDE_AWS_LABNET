@@ -31,7 +31,7 @@ resource "aws_vpc" "vpc01" {
   cidr_block = "10.10.10.0/24"
   enable_dns_hostnames = true
   enable_dns_support = true
-  main_route_table_id = aws_route_table.vpc01-rt-private.id
+  #main_route_table_id = aws_route_table.vpc01-rt-private.id
 
   tags = (merge(local.common-tags, tomap({
     Name = "vpc01"
@@ -43,7 +43,7 @@ resource "aws_vpc" "vpc02" {
   cidr_block = "10.10.20.0/24"
   enable_dns_hostnames = true
   enable_dns_support = true
-  main_route_table_id = aws_route_table.vpc02-rt-private.id
+  #main_route_table_id = aws_route_table.vpc02-rt-private.id
 
   tags = (merge(local.common-tags, tomap({
     Name = "vpc02"
