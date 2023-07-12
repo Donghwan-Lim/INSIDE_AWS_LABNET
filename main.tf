@@ -7,6 +7,14 @@ terraform {
       name = "INSIDE_AWS_LABNET"
     }
   }
+  
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "5.7.0"
+    }
+  }
+
 }
 
 ### AWS Provider Info ###
