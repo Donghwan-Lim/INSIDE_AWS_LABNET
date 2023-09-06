@@ -167,6 +167,12 @@ resource "aws_route_table" "vpc01-rt-public" {
   })))
 }
 
+resource "aws_route" "vpc01-rt-pub-route01" {
+  route_table_id = aws_route_table.vpc01-rt-public.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.igw01.id
+}
+
 resource "aws_route_table_association" "vpc01-rt-pub-to-sbn-pub01" {
   route_table_id = aws_route_table.vpc01-rt-public.id
   subnet_id      = aws_subnet.vpc01-sbn-pub-01.id
