@@ -7,14 +7,13 @@ terraform {
       name = "INSIDE_AWS_LABNET"
     }
   }
-  
+
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "5.7.0"
     }
   }
-
 }
 
 ### AWS Provider Info ###
@@ -152,14 +151,16 @@ resource "aws_subnet" "vpc02-sbn-priv-02" {
 
 
 ### Route Table ###
+# vpc1 public route table
 resource "aws_route_table" "vpc01-rt-public" {
   vpc_id = aws_vpc.vpc01.id
 
+  /*
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw01.id
   }
-
+  */
   tags = (merge(local.common-tags, tomap({
     Name     = "VPC01-PUBLIC-RT"
     resource = "aws_route_table"
@@ -176,6 +177,8 @@ resource "aws_route_table_association" "vpc01-rt-pub-to-sbn-pub02" {
   subnet_id      = aws_subnet.vpc01-sbn-pub-02.id
 }
 
+
+# vpc1 private route table
 resource "aws_default_route_table" "vpc01-rt-private" {
   default_route_table_id = aws_vpc.vpc01.default_route_table_id
 
@@ -195,6 +198,8 @@ resource "aws_route_table_association" "vpc01-rt-priv-to-sbn-priv02" {
   subnet_id      = aws_subnet.vpc01-sbn-priv-02.id
 }
 
+
+#vpc2 public route table
 resource "aws_route_table" "vpc02-rt-public" {
   vpc_id = aws_vpc.vpc02.id
 
@@ -214,6 +219,8 @@ resource "aws_route_table_association" "vpc02-rt-pub-to-sbn-pub02" {
   subnet_id      = aws_subnet.vpc02-sbn-pub-02.id
 }
 
+
+#vpc2 private route table
 resource "aws_default_route_table" "vpc02-rt-private" {
   default_route_table_id = aws_vpc.vpc02.default_route_table_id
 
