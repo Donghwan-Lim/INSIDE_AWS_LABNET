@@ -73,6 +73,7 @@ resource "aws_subnet" "vpc01-sbn-pub-01" {
   vpc_id            = aws_vpc.vpc01.id
   availability_zone = data.aws_availability_zones.all.names[0]
   cidr_block        = "10.10.10.0/26"
+  map_public_ip_on_launch = true
   tags = (merge(local.common-tags, tomap({
     Name                                   = "vpc01-pub01-sbn"
     resource                               = "aws_subnet"
@@ -85,6 +86,7 @@ resource "aws_subnet" "vpc01-sbn-pub-02" {
   vpc_id            = aws_vpc.vpc01.id
   availability_zone = data.aws_availability_zones.all.names[2]
   cidr_block        = "10.10.10.64/26"
+  map_public_ip_on_launch = true
   tags = (merge(local.common-tags, tomap({
     Name                                   = "vpc01-pub02-sbn"
     resource                               = "aws_subnet"
