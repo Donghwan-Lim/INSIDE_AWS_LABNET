@@ -183,6 +183,12 @@ resource "aws_route" "vpc01-rt-pub-route01" {
   gateway_id             = aws_internet_gateway.igw01.id
 }
 
+resource "aws_route" "vpc01-rt-pub-route02" {
+  route_table_id         = aws_default_route_table.vpc01-rt-public.id
+  destination_cidr_block = "10.10.20.0/24"
+  gateway_id             = aws_ec2_transit_gateway.tgw01.id
+}
+
 resource "aws_route_table_association" "vpc01-rt-pub-to-sbn-pub01" {
   route_table_id = aws_default_route_table.vpc01-rt-public.id
   subnet_id      = aws_subnet.vpc01-sbn-pub-01.id
@@ -246,6 +252,12 @@ resource "aws_default_route_table" "vpc02-rt-private" {
     Name     = "VPC02-PRIVATE-RT"
     resource = "aws_route_table"
   })))
+}
+
+resource "aws_route" "vpc02-rt-priv-route01" {
+  route_table_id         = aws_default_route_table.vpc02-rt-private.id
+  destination_cidr_block = "10.10.10.0/24"
+  gateway_id             = aws_ec2_transit_gateway.tgw01.id
 }
 
 resource "aws_route_table_association" "vpc02-rt-priv-to-sbn-priv01" {
