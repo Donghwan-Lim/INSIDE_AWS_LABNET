@@ -67,6 +67,24 @@ resource "aws_internet_gateway" "igw01" {
   })))
 }
 
+### NAT GW FOR Private Network
+resource "aws_nat_gateway" "ngw01" {
+  allocation_id = aws_eip.ngw-eip-01.id
+  subnet_id     = aws_subnet.vpc02-sbn-priv-01.id
+
+  tags = {
+    Name = "ngw01"
+  }
+
+  # To ensure proper ordering, it is recommended to add an explicit dependency
+  # on the Internet Gateway for the VPC.
+  depends_on = [aws_internet_gateway.igw01]
+}
+
+resource "aws_eip" "ngw-eip-01" {
+
+}
+
 
 ### AWS Subnet ###
 resource "aws_subnet" "vpc01-sbn-pub-01" {
@@ -290,9 +308,9 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc02" {
   transit_gateway_id = aws_ec2_transit_gateway.tgw01.id
   vpc_id             = aws_vpc.vpc02.id
 }
-
+/*
 resource "aws_ec2_transit_gateway_route" "tgw01-route" {
   destination_cidr_block         = "0.0.0.0/0"
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw01-attach-vpc01.id
   transit_gateway_route_table_id = "tgw-rtb-074aa3d455c9ea8dc"
-}
+}*/
