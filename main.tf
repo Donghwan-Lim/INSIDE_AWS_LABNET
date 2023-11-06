@@ -38,7 +38,7 @@ resource "aws_vpc" "vpc01" {
   cidr_block           = "10.10.10.0/24"
   enable_dns_hostnames = true
   enable_dns_support   = true
-  #main_route_table_id = aws_route_table.vpc01-rt-private.id
+  #main_route_table_id = aws_route_table.vpc01-rt-public.id
 
   tags = (merge(local.common-tags, tomap({
     Name     = "vpc01"
@@ -50,7 +50,7 @@ resource "aws_vpc" "vpc02" {
   cidr_block           = "10.10.20.0/24"
   enable_dns_hostnames = true
   enable_dns_support   = true
-  #main_route_table_id = aws_route_table.vpc02-rt-private.id
+  #main_route_table_id = aws_route_table.
 
   tags = (merge(local.common-tags, tomap({
     Name     = "vpc02"
@@ -162,8 +162,8 @@ resource "aws_subnet" "vpc02-sbn-priv-02" {
 
 ### Route Table ###
 # vpc1 public route table
-resource "aws_route_table" "vpc01-rt-public" {
-  vpc_id = aws_vpc.vpc01.id
+resource "aws_default_route_table" "vpc01-rt-public" {
+  default_route_table_id = aws_vpc.vpc01.default_route_table_id
 
   /* aws_route resource로 이전
   route {
@@ -173,23 +173,23 @@ resource "aws_route_table" "vpc01-rt-public" {
 
   tags = (merge(local.common-tags, tomap({
     Name     = "VPC01-PUBLIC-RT"
-    resource = "aws_route_table"
+    resource = "aws_default_route_table"
   })))
 }
 
 resource "aws_route" "vpc01-rt-pub-route01" {
-  route_table_id         = aws_route_table.vpc01-rt-public.id
+  route_table_id         = aws_default_route_table.vpc01-rt-public.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.igw01.id
 }
 
 resource "aws_route_table_association" "vpc01-rt-pub-to-sbn-pub01" {
-  route_table_id = aws_route_table.vpc01-rt-public.id
+  route_table_id = aws_default_route_table.vpc01-rt-public.id
   subnet_id      = aws_subnet.vpc01-sbn-pub-01.id
 }
 
 resource "aws_route_table_association" "vpc01-rt-pub-to-sbn-pub02" {
-  route_table_id = aws_route_table.vpc01-rt-public.id
+  route_table_id = aws_default_route_table.vpc01-rt-public.id
   subnet_id      = aws_subnet.vpc01-sbn-pub-02.id
 }
 
