@@ -274,7 +274,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc01" {
 }
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc02" {
-  subnet_ids         = [aws_subnet.vpc02-sbn-priv-01, aws_subnet.aws_subnet.vpc02-sbn-priv-02]
+  subnet_ids         = [aws_subnet.vpc02-sbn-priv-01, aws_subnet.vpc02-sbn-priv-02]
   transit_gateway_id = aws_ec2_transit_gateway.tgw01.id
   vpc_id             = aws_vpc.vpc02.id
 }
