@@ -256,7 +256,7 @@ resource "aws_default_route_table" "vpc02-rt-private" {
 
 resource "aws_route" "vpc02-rt-priv-route01" {
   route_table_id         = aws_default_route_table.vpc02-rt-private.id
-  destination_cidr_block = "0.0.0.0/24"
+  destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_ec2_transit_gateway.tgw01.id
 }
 
@@ -294,5 +294,5 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc02" {
 resource "aws_ec2_transit_gateway_route" "tgw01-route" {
   destination_cidr_block         = "0.0.0.0/0"
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw01-attach-vpc01.id
-  transit_gateway_route_table_id = aws_ec2_transit_gateway.tgw01.default_route_table_association
+  transit_gateway_route_table_id = "tgw-rtb-074aa3d455c9ea8dc"
 }
