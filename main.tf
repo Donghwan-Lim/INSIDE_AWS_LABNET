@@ -294,5 +294,5 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc02" {
 resource "aws_ec2_transit_gateway_route" "tgw01-route" {
   destination_cidr_block         = "0.0.0.0/0"
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw01-attach-vpc01.id
-  transit_gateway_route_table_id = aws_ec2_transit_gateway.tgw01.default_route_table_association.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway.tgw01.default_route_table_association
 }
