@@ -70,7 +70,7 @@ resource "aws_internet_gateway" "igw01" {
 ### NAT GW FOR Private Network
 resource "aws_nat_gateway" "ngw01" {
   allocation_id = aws_eip.ngw-eip-01.id
-  subnet_id     = aws_subnet.vpc02-sbn-priv-01.id
+  subnet_id     = aws_subnet.vpc01-sbn-pub-01.id
 
   tags = {
     Name = "ngw01"
