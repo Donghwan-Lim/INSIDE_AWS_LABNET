@@ -268,13 +268,13 @@ resource "aws_ec2_transit_gateway" "tgw01" {
 }
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc01" {
-  subnet_ids         = [aws_subnet.aws_subnet.vpc01-sbn-pub-01, aws_subnet.vpc01-sbn-pub-02]
+  subnet_ids         = [aws_subnet.vpc01-sbn-pub-01, aws_subnet.vpc01-sbn-pub-02]
   transit_gateway_id = aws_ec2_transit_gateway.tgw01.id
   vpc_id             = aws_vpc.vpc01.id
 }
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc02" {
-  subnet_ids         = [aws_subnet.aws_subnet.vpc02-sbn-priv-01, aws_subnet.aws_subnet.vpc02-sbn-priv-02]
+  subnet_ids         = [aws_subnet.vpc02-sbn-priv-01, aws_subnet.aws_subnet.vpc02-sbn-priv-02]
   transit_gateway_id = aws_ec2_transit_gateway.tgw01.id
   vpc_id             = aws_vpc.vpc02.id
 }
