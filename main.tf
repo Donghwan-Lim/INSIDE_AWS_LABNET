@@ -70,9 +70,9 @@ resource "aws_internet_gateway" "igw01" {
 
 ### AWS Subnet ###
 resource "aws_subnet" "vpc01-sbn-pub-01" {
-  vpc_id            = aws_vpc.vpc01.id
-  availability_zone = data.aws_availability_zones.all.names[0]
-  cidr_block        = "10.10.10.0/26"
+  vpc_id                  = aws_vpc.vpc01.id
+  availability_zone       = data.aws_availability_zones.all.names[0]
+  cidr_block              = "10.10.10.0/26"
   map_public_ip_on_launch = true
   tags = (merge(local.common-tags, tomap({
     Name                                   = "vpc01-pub01-sbn"
@@ -83,9 +83,9 @@ resource "aws_subnet" "vpc01-sbn-pub-01" {
 }
 
 resource "aws_subnet" "vpc01-sbn-pub-02" {
-  vpc_id            = aws_vpc.vpc01.id
-  availability_zone = data.aws_availability_zones.all.names[2]
-  cidr_block        = "10.10.10.64/26"
+  vpc_id                  = aws_vpc.vpc01.id
+  availability_zone       = data.aws_availability_zones.all.names[2]
+  cidr_block              = "10.10.10.64/26"
   map_public_ip_on_launch = true
   tags = (merge(local.common-tags, tomap({
     Name                                   = "vpc01-pub02-sbn"
@@ -170,7 +170,7 @@ resource "aws_route_table" "vpc01-rt-public" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw01.id
   }*/
-  
+
   tags = (merge(local.common-tags, tomap({
     Name     = "VPC01-PUBLIC-RT"
     resource = "aws_route_table"
@@ -178,9 +178,9 @@ resource "aws_route_table" "vpc01-rt-public" {
 }
 
 resource "aws_route" "vpc01-rt-pub-route01" {
-  route_table_id = aws_route_table.vpc01-rt-public.id
+  route_table_id         = aws_route_table.vpc01-rt-public.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id = aws_internet_gateway.igw01.id
+  gateway_id             = aws_internet_gateway.igw01.id
 }
 
 resource "aws_route_table_association" "vpc01-rt-pub-to-sbn-pub01" {
@@ -268,7 +268,7 @@ resource "aws_ec2_transit_gateway" "tgw01" {
 }
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc01" {
-  subnet_ids         = [aws_subnet.vpc01-sbn-pub-01.id , aws_subnet.vpc01-sbn-pub-02.id]
+  subnet_ids         = [aws_subnet.vpc01-sbn-pub-01.id, aws_subnet.vpc01-sbn-pub-02.id]
   transit_gateway_id = aws_ec2_transit_gateway.tgw01.id
   vpc_id             = aws_vpc.vpc01.id
 }
