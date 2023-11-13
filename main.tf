@@ -218,7 +218,7 @@ resource "aws_route_table_association" "vpc01-rt-pub-to-sbn-pub02" {
 
 
 # vpc1 private route table
-
+/*
 resource "aws_default_route_table" "vpc01-rt-private" {
   default_route_table_id = aws_vpc.vpc01.default_route_table_id
 
@@ -226,20 +226,29 @@ resource "aws_default_route_table" "vpc01-rt-private" {
     Name     = "VPC01-PRIVATE-RT"
     resource = "aws_deafult_route_table"
   })))
+}*/
+
+resource "aws_route_table" "vpc01-rt-private" {
+  vpc_id = aws_vpc.vpc011.id
+
+  tags = (merge(local.common-tags, tomap({
+    Name     = "VPC01-PRIVATE-RT"
+    resource = "aws_route_table"
+  })))
 }
 
 resource "aws_route_table_association" "vpc01-rt-priv-to-sbn-priv01" {
-  route_table_id = aws_default_route_table.vpc01-rt-private.id
+  route_table_id = aws_route_table.vpc01-rt-private.id
   subnet_id      = aws_subnet.vpc01-sbn-priv-01.id
 }
 
 resource "aws_route_table_association" "vpc01-rt-priv-to-sbn-priv02" {
-  route_table_id = aws_default_route_table.vpc01-rt-private.id
+  route_table_id = aws_route_table.vpc01-rt-private.id
   subnet_id      = aws_subnet.vpc01-sbn-priv-02.id
 }
 
 resource "aws_route" "vpc01-rt-priv-route01" {
-  route_table_id         = aws_default_route_table.vpc01-rt-private.id
+  route_table_id         = aws_route_table.vpc01-rt-private.id
   destination_cidr_block = "0.0.0.0/0"
   transit_gateway_id     = aws_nat_gateway.ngw01.id
 }
