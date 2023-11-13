@@ -85,25 +85,6 @@ resource "aws_eip" "ngw-eip-01" {
 
 }
 
-### NAT GW FOR Private Network
-resource "aws_nat_gateway" "ngw02" {
-  allocation_id = aws_eip.ngw-eip-02.id
-  subnet_id     = aws_subnet.vpc01-sbn-pub-02.id
-
-  tags = {
-    Name = "ngw02"
-  }
-
-  # To ensure proper ordering, it is recommended to add an explicit dependency
-  # on the Internet Gateway for the VPC.
-  depends_on = [aws_internet_gateway.igw01]
-}
-
-resource "aws_eip" "ngw-eip-02" {
-
-}
-
-
 ### AWS Subnet ###
 resource "aws_subnet" "vpc01-sbn-pub-01" {
   vpc_id                  = aws_vpc.vpc01.id
@@ -130,7 +111,7 @@ resource "aws_subnet" "vpc01-sbn-pub-02" {
     "kubernetes.io/role/elb"               = "1"
   })))
 }
-/*
+
 resource "aws_subnet" "vpc01-sbn-priv-01" {
   vpc_id            = aws_vpc.vpc01.id
   availability_zone = data.aws_availability_zones.all.names[0]
@@ -154,7 +135,7 @@ resource "aws_subnet" "vpc01-sbn-priv-02" {
     "kubernetes.io/role/internal-elb"       = "1"
   })))
 }
-
+/*
 resource "aws_subnet" "vpc02-sbn-pub-01" {
   vpc_id            = aws_vpc.vpc02.id
   availability_zone = data.aws_availability_zones.all.names[0]
@@ -237,7 +218,7 @@ resource "aws_route_table_association" "vpc01-rt-pub-to-sbn-pub02" {
 
 
 # vpc1 private route table
-/*
+
 resource "aws_default_route_table" "vpc01-rt-private" {
   default_route_table_id = aws_vpc.vpc01.default_route_table_id
 
@@ -256,7 +237,12 @@ resource "aws_route_table_association" "vpc01-rt-priv-to-sbn-priv02" {
   route_table_id = aws_default_route_table.vpc01-rt-private.id
   subnet_id      = aws_subnet.vpc01-sbn-priv-02.id
 }
-*/
+
+resource "aws_route" "vpc02-rt-priv-route01" {
+  route_table_id         = aws_default_route_table.vpc01-rt-private.id
+  destination_cidr_block = "0.0.0.0/0"
+  transit_gateway_id     = aws_nat_gateway.ngw01.id
+}
 
 #vpc2 public route table
 /*
@@ -316,7 +302,7 @@ resource "aws_ec2_transit_gateway" "tgw01" {
 }
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc01" {
-  subnet_ids         = [aws_subnet.vpc01-sbn-pub-01.id, aws_subnet.vpc01-sbn-pub-02.id]
+  subnet_ids         = [aws_subnet.vpc01-sbn-priv-01.id, aws_subnet.vpc01-sbn-priv-02.id]
   transit_gateway_id = aws_ec2_transit_gateway.tgw01.id
   vpc_id             = aws_vpc.vpc01.id
 }
