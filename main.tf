@@ -85,6 +85,24 @@ resource "aws_eip" "ngw-eip-01" {
 
 }
 
+### NAT GW FOR Private Network
+resource "aws_nat_gateway" "ngw02" {
+  allocation_id = aws_eip.ngw-eip-02.id
+  subnet_id     = aws_subnet.vpc01-sbn-pub-02.id
+
+  tags = {
+    Name = "ngw02"
+  }
+
+  # To ensure proper ordering, it is recommended to add an explicit dependency
+  # on the Internet Gateway for the VPC.
+  depends_on = [aws_internet_gateway.igw01]
+}
+
+resource "aws_eip" "ngw-eip-02" {
+
+}
+
 
 ### AWS Subnet ###
 resource "aws_subnet" "vpc01-sbn-pub-01" {
