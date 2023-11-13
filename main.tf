@@ -198,7 +198,7 @@ resource "aws_default_route_table" "vpc01-rt-public" {
 resource "aws_route" "vpc01-rt-pub-route01" {
   route_table_id         = aws_default_route_table.vpc01-rt-public.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_nat_gateway.ngw01.id
+  gateway_id             = aws_internet_gateway.igw01.id
 }
 
 resource "aws_route" "vpc01-rt-pub-route02" {
