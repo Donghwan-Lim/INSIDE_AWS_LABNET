@@ -250,7 +250,7 @@ resource "aws_route_table_association" "vpc01-rt-priv-to-sbn-priv02" {
 resource "aws_route" "vpc01-rt-priv-route01" {
   route_table_id         = aws_route_table.vpc01-rt-private.id
   destination_cidr_block = "0.0.0.0/0"
-  natnat_gateway_id      = aws_nat_gateway.ngw01.id
+  nat_gateway_id      = aws_nat_gateway.ngw01.id
 }
 
 #vpc2 public route table
