@@ -238,7 +238,7 @@ resource "aws_route_table_association" "vpc01-rt-priv-to-sbn-priv02" {
   subnet_id      = aws_subnet.vpc01-sbn-priv-02.id
 }
 
-resource "aws_route" "vpc02-rt-priv-route01" {
+resource "aws_route" "vpc01-rt-priv-route01" {
   route_table_id         = aws_default_route_table.vpc01-rt-private.id
   destination_cidr_block = "0.0.0.0/0"
   transit_gateway_id     = aws_nat_gateway.ngw01.id
