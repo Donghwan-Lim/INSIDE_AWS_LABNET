@@ -229,7 +229,7 @@ resource "aws_default_route_table" "vpc01-rt-private" {
 }*/
 
 resource "aws_route_table" "vpc01-rt-private" {
-  vpc_id = aws_vpc.vpc011.id
+  vpc_id = aws_vpc.vpc01.id
 
   tags = (merge(local.common-tags, tomap({
     Name     = "VPC01-PRIVATE-RT"
