@@ -305,7 +305,7 @@ resource "aws_route_table_association" "vpc02-rt-priv-to-sbn-priv02" {
 #########################################################################
 ############################ Transit Gateway ############################
 #########################################################################
-/*
+
 resource "aws_ec2_transit_gateway" "tgw01" {
   description = "tgw between vpc1 and vpc2"
 }
@@ -322,9 +322,12 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc02" {
   vpc_id             = aws_vpc.vpc02.id
 }
 
+resource "aws_ec2_transit_gateway_route_table" "tgw01-routetable" {
+  transit_gateway_id = aws_ec2_transit_gateway.tgw01.id
+}
+
 resource "aws_ec2_transit_gateway_route" "tgw01-route" {
   destination_cidr_block         = "0.0.0.0/0"
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw01-attach-vpc01.id
-  transit_gateway_route_table_id = "tgw-rtb-074aa3d455c9ea8dc"
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw01-routetable.id
 }
-*/
