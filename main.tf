@@ -308,10 +308,7 @@ resource "aws_route_table_association" "vpc02-rt-priv-to-sbn-priv02" {
 
 resource "aws_ec2_transit_gateway" "tgw01" {
   description = "tgw between vpc1 and vpc2"
-
-  default_route_table_association = "disable"
-  default_route_table_propagation = "disable"
-
+  
   tags = (merge(local.common-tags, tomap({
     Name     = "Transit_Gateway_Donghwan"
     resource = "aws_transit_gateway"
@@ -332,6 +329,11 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc02" {
 
 resource "aws_ec2_transit_gateway_route_table" "tgw01-routetable" {
   transit_gateway_id = aws_ec2_transit_gateway.tgw01.id
+
+  tags = (merge(local.common-tags, tomap({
+    Name     = "TGW_Route_Table"
+    resource = "aws_transit_gateway_route_table"
+  })))
 }
 
 resource "aws_ec2_transit_gateway_route" "tgw01-route" {
@@ -339,3 +341,5 @@ resource "aws_ec2_transit_gateway_route" "tgw01-route" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw01-attach-vpc01.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw01-routetable.id
 }
+
+
