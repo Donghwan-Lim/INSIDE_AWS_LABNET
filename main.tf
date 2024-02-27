@@ -199,13 +199,13 @@ resource "aws_route" "vpc01-rt-pub-route01" {
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.igw01.id
 }
-/*
+
 resource "aws_route" "vpc01-rt-pub-route02" {
   route_table_id         = aws_default_route_table.vpc01-rt-public.id
   destination_cidr_block = "10.10.20.0/24"
   transit_gateway_id     = aws_ec2_transit_gateway.tgw01.id
 }
-*/
+
 resource "aws_route_table_association" "vpc01-rt-pub-to-sbn-pub01" {
   route_table_id = aws_default_route_table.vpc01-rt-public.id
   subnet_id      = aws_subnet.vpc01-sbn-pub-01.id
@@ -284,13 +284,13 @@ resource "aws_default_route_table" "vpc02-rt-private" {
     resource = "aws_route_table"
   })))
 }
-/*
+
 resource "aws_route" "vpc02-rt-priv-route01" {
   route_table_id         = aws_default_route_table.vpc02-rt-private.id
   destination_cidr_block = "0.0.0.0/0"
   transit_gateway_id     = aws_ec2_transit_gateway.tgw01.id
 }
-*/
+
 resource "aws_route_table_association" "vpc02-rt-priv-to-sbn-priv01" {
   route_table_id = aws_default_route_table.vpc02-rt-private.id
   subnet_id      = aws_subnet.vpc02-sbn-priv-01.id
@@ -305,7 +305,7 @@ resource "aws_route_table_association" "vpc02-rt-priv-to-sbn-priv02" {
 #########################################################################
 ############################ Transit Gateway ############################
 #########################################################################
-/*
+
 resource "aws_ec2_transit_gateway" "tgw01" {
   description = "tgw between vpc1 and vpc2"
 
@@ -339,4 +339,3 @@ resource "aws_ec2_transit_gateway_route" "tgw01-route" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw01-attach-vpc01.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw01-routetable.id
 }
-*/

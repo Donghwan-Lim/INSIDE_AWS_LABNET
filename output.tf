@@ -47,9 +47,8 @@ output "vpc02_private_subnet_02_id" {
   value       = aws_subnet.vpc02-sbn-priv-02.id
   description = "INSIDE_AWS_LABNET_VPC_02_SUBNET_PRIVATE_02_ID(10.10.20.192/26)"
 }
-/*
+
 output "transit_gateway_01_id" {
   value       = aws_ec2_transit_gateway.tgw01.id
   description = "INSIDE_AWS_LABNET_TRANSIT GATEWAY BETWEEN VPC01 TO VPC02"
 }
-*/
