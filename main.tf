@@ -309,8 +309,8 @@ resource "aws_route_table_association" "vpc02-rt-priv-to-sbn-priv02" {
 resource "aws_ec2_transit_gateway" "tgw01" {
   description = "tgw between vpc1 and vpc2"
 
-  default_route_table_association = disable
-  default_route_table_propagation = disable
+  default_route_table_association = "disable"
+  default_route_table_propagation = "disable"
 
   tags = (merge(local.common-tags, tomap({
     Name     = "Transit_Gateway_Donghwan"
