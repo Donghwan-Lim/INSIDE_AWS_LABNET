@@ -326,7 +326,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw01-attach-vpc02" {
   transit_gateway_id = aws_ec2_transit_gateway.tgw01.id
   vpc_id             = aws_vpc.vpc02.id
 }
-
+/*
 resource "aws_ec2_transit_gateway_route_table" "tgw01-routetable" {
   transit_gateway_id = aws_ec2_transit_gateway.tgw01.id
 
@@ -335,7 +335,7 @@ resource "aws_ec2_transit_gateway_route_table" "tgw01-routetable" {
     resource = "aws_transit_gateway_route_table"
   })))
 }
-
+*/
 import {
   to = aws_ec2_transit_gateway_route_table.tgw01-routetable
   id = "tgw-rtb-08133dced42ca6b30"
