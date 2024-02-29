@@ -336,10 +336,13 @@ resource "aws_ec2_transit_gateway_route_table" "tgw01-routetable" {
   })))
 }
 
+import {
+  to = aws_ec2_transit_gateway_route_table.tgw01-routetable
+  id = "tgw-rtb-08133dced42ca6b30"
+}
+
 resource "aws_ec2_transit_gateway_route" "tgw01-route" {
   destination_cidr_block         = "0.0.0.0/0"
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw01-attach-vpc01.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw01-routetable.id
 }
-
-
